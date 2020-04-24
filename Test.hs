@@ -45,6 +45,16 @@ isEven Zero = True
 isEven (Succ Zero) = False
 isEven (Succ (Succ n)) = isEven n
 
+type family IsEven (n :: Nat) :: Bool
+type instance IsEven 'Zero             = 'True
+type instance IsEven ('Succ 'Zero)     = 'False
+type instance IsEven ('Succ ('Succ n)) = IsEven n
+
+sIsEven :: SNat n -> SBool (IsEven n)
+sIsEven SZero             = STrue
+sIsEven (SSucc SZero)     = SFalse
+sIsEven (SSucc (SSucc n)) = sIsEven n
+
 nextEven :: Nat -> Nat
 nextEven n = if isEven n then n else Succ n
 

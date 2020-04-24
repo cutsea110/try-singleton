@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, TypeOperators, RankNTypes,
-             KindSignatures, DataKinds, TypeFamilies, PolyKinds #-}
+             KindSignatures, DataKinds, TypeFamilies, PolyKinds, UndecidableInstances #-}
 module Test where
 
 import Prelude hiding (head)
@@ -57,6 +57,20 @@ sIsEven (SSucc (SSucc n)) = sIsEven n
 
 nextEven :: Nat -> Nat
 nextEven n = if isEven n then n else Succ n
+
+type family If (b :: Bool) (t :: k) (e :: k) :: k
+type instance If 'True  (t :: k) (e :: k) = t
+type instance If 'False (t :: k) (e :: k) = e
+
+sIfNat :: SBool b -> SNat n -> SNat m -> SNat (If b n m)
+sIfNat STrue  x y = x
+sIfNat SFalse x y = y
+
+type family NextEven (n :: Nat) :: Nat
+type instance NextEven n = If (IsEven n) n ('Succ n)
+
+sNextEven :: SNat n -> SNat (NextEven n)
+sNextEven n = sIfNat (sIsEven n) n (SSucc n)
 
 data Fin :: Nat -> * where
   FZero :: Fin ('Succ n)

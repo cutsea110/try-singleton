@@ -21,3 +21,11 @@ type SBool (a :: Bool) = Sing a
 data instance Sing (m :: Maybe k) where
   SNothing :: Sing 'Nothing
   SJust    :: forall (a :: k). Sing a -> Sing ('Just a)
+
+data Vec :: * -> Nat -> * where
+  VNil  :: Vec a 'Zero
+  VCons :: a -> Vec a n -> Vec a ('Succ n)
+
+data instance Sing (v :: Vec a n) where
+  SVNil :: Sing 'VNil
+  SVCons :: Sing a -> Sing v -> Sing ('VCons a v)

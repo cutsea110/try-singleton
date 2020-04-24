@@ -84,3 +84,11 @@ makeEven n vec = case sIsEven n of
   STrue  -> vec
   SFalse -> case vec of
     VCons h t -> VCons h (VCons h t)
+
+replicate1 :: SNat n -> a -> Vec a n
+replicate1 SZero     _ = VNil
+replicate1 (SSucc n) a = VCons a (replicate1 n a)
+
+len :: Vec a n -> SNat n
+len VNil        = SZero
+len (VCons _ v) = SSucc (len v)

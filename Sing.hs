@@ -18,6 +18,6 @@ data instance Sing (a :: Nat) where
 type SNat (a :: Nat)   = Sing a
 type SBool (a :: Bool) = Sing a
 
-data instance Sing (b :: Maybe k) where
+data instance Sing (m :: Maybe k) where
   SNothing :: Sing 'Nothing
   SJust    :: forall (a :: k). Sing a -> Sing ('Just a)

@@ -36,6 +36,17 @@ append :: Vec a n -> Vec a m -> Vec a (Plus n m)
 append VNil v2        = v2
 append (VCons h t) v2 = VCons h (append t v2)
 
+data SBool :: Bool -> * where
+  SFalse :: SBool 'False
+  STrue  :: SBool 'True
+
+isEven :: Nat -> Bool
+isEven Zero = True
+isEven (Succ Zero) = False
+isEven (Succ (Succ n)) = isEven n
+
+nextEven :: Nat -> Nat
+nextEven n = if isEven n then n else Succ n
 
 data Fin :: Nat -> * where
   FZero :: Fin ('Succ n)

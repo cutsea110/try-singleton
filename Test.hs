@@ -62,16 +62,15 @@ type family If (b :: Bool) (t :: k) (e :: k) :: k
 type instance If 'True  (t :: k) (e :: k) = t
 type instance If 'False (t :: k) (e :: k) = e
 
--- | how to make sIf as polimorphic?
-sIfNat :: SBool b -> SNat n -> SNat m -> SNat (If b n m)
-sIfNat STrue  x y = x
-sIfNat SFalse x y = y
+sIf :: forall (b :: Bool) (n :: k) (m :: k) (f :: k -> *). SBool b -> f n -> f m -> f (If b n m)
+sIf STrue  x y = x
+sIf SFalse x y = y
 
 type family NextEven (n :: Nat) :: Nat
 type instance NextEven n = If (IsEven n) n ('Succ n)
 
 sNextEven :: SNat n -> SNat (NextEven n)
-sNextEven n = sIfNat (sIsEven n) n (SSucc n)
+sNextEven n = sIf (sIsEven n) n (SSucc n)
 
 data Fin :: Nat -> * where
   FZero :: Fin ('Succ n)

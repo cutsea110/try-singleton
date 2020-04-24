@@ -2,6 +2,8 @@
              KindSignatures, DataKinds, TypeFamilies, PolyKinds #-}
 module Test where
 
+import Prelude hiding (head)
+
 data Nat where
   Zero :: Nat
   Succ :: Nat -> Nat
@@ -19,6 +21,21 @@ data SNat :: Nat -> * where
   SZero :: SNat 'Zero
   SSucc :: forall (n :: Nat). SNat n -> SNat ('Succ n)
 
+head :: Vec a ('Succ n) -> a
+head (VCons h _) = h
+
+plus :: Nat -> Nat -> Nat
+plus Zero     m = m
+plus (Succ n) m = Succ (plus n m)
+
+type family   Plus (n :: Nat) (m :: Nat) :: Nat
+type instance Plus 'Zero m     = m
+type instance Plus ('Succ n) m = 'Succ (Plus n m)
+
+append :: Vec a n -> Vec a m -> Vec a (Plus n m)
+append VNil v2        = v2
+append (VCons h t) v2 = VCons h (append t v2)
+
 
 data Fin :: Nat -> * where
   FZero :: Fin ('Succ n)
@@ -26,3 +43,4 @@ data Fin :: Nat -> * where
 
 data Eql :: k -> k -> * where
   Refl :: Eql a a
+

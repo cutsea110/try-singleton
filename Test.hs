@@ -79,3 +79,8 @@ data Fin :: Nat -> * where
 data Eql :: k -> k -> * where
   Refl :: Eql a a
 
+makeEven :: SNat n -> Vec a n -> Vec a (NextEven n)
+makeEven n vec = case sIsEven n of
+  STrue  -> vec
+  SFalse -> case vec of
+    VCons h t -> VCons h (VCons h t)

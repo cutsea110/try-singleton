@@ -62,6 +62,7 @@ type family If (b :: Bool) (t :: k) (e :: k) :: k
 type instance If 'True  (t :: k) (e :: k) = t
 type instance If 'False (t :: k) (e :: k) = e
 
+-- | how to make sIf as polimorphic?
 sIfNat :: SBool b -> SNat n -> SNat m -> SNat (If b n m)
 sIfNat STrue  x y = x
 sIfNat SFalse x y = y

@@ -18,3 +18,8 @@ type instance ('Succ m)  :< ('Succ n)  = m :< n
 data SNat :: Nat -> * where
   SZero :: SNat 'Zero
   SSucc :: forall (n :: Nat). SNat n -> SNat ('Succ n)
+
+
+data Fin :: Nat -> * where
+  FZero :: Fin ('Succ n)
+  FSucc :: Fin n -> Fin ('Succ n)

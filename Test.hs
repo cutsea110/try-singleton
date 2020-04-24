@@ -1,5 +1,5 @@
 {-# LANGUAGE GADTs, TypeOperators, RankNTypes,
-             KindSignatures, DataKinds, TypeFamilies #-}
+             KindSignatures, DataKinds, TypeFamilies, PolyKinds #-}
 module Test where
 
 data Nat where
@@ -23,3 +23,6 @@ data SNat :: Nat -> * where
 data Fin :: Nat -> * where
   FZero :: Fin ('Succ n)
   FSucc :: Fin n -> Fin ('Succ n)
+
+data Eql :: k -> k -> * where
+  Refl :: Eql a a

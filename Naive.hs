@@ -32,6 +32,10 @@ type family   Plus (n :: Nat) (m :: Nat) :: Nat
 type instance Plus 'Zero m     = m
 type instance Plus ('Succ n) m = 'Succ (Plus n m)
 
+splus :: SNat n -> SNat m -> SNat (Plus n m)
+splus SZero m = m
+splus (SSucc n) m = SSucc (splus n m)
+
 append :: Vec a n -> Vec a m -> Vec a (Plus n m)
 append VNil v2        = v2
 append (VCons h t) v2 = VCons h (append t v2)

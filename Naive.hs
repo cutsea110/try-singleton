@@ -19,7 +19,7 @@ type instance ('Succ m)  :< ('Succ n)  = m :< n
 
 data SNat :: Nat -> * where
   SZero :: SNat 'Zero
-  SSucc :: forall (n :: Nat). SNat n -> SNat ('Succ n)
+  SSucc :: SNat n -> SNat ('Succ n)
 
 head :: Vec a ('Succ n) -> a
 head (VCons h _) = h
@@ -62,7 +62,7 @@ type family   If (b :: Bool) (t :: k) (e :: k) :: k
 type instance If 'True  (t :: k) (e :: k) = t
 type instance If 'False (t :: k) (e :: k) = e
 
-sIf :: forall (b :: Bool) (n :: k) (m :: k) (f :: k -> *). SBool b -> f n -> f m -> f (If b n m)
+sIf :: SBool b -> f n -> f m -> f (If b n m)
 sIf STrue  x y = x
 sIf SFalse x y = y
 
